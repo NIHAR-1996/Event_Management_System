@@ -39,7 +39,7 @@ const Communication = () => {
 
   return (
     <div className="flex justify-center overflow-hidden ">
-      <div className=" flex flex-col items-center w-[50%] border rounded-lg border-gray-300 shadow-lg space-y-4 mt-10 bg-slate-400 p-5">
+      <div className=" flex flex-col items-center w-[40%] border rounded-lg border-gray-300 shadow-lg space-y-4 mt-10 bg-slate-100 p-5">
         <h1 className="font-bold">Communicate with Users</h1>
         <input
           type="email"

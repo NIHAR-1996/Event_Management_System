@@ -42,7 +42,7 @@ const Signup = () => {
     }
 
    try{
-    const response=await axios.post('http://localhost:8000/api/',{name,email,password});
+    const response=await axios.post('http://localhost:8000/api/signup',{name,email,password});
     toast.success('User Created Successfully');
     navigate('/');
     console.log("User Data", response.data);

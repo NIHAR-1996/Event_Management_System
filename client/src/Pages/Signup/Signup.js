@@ -1,156 +1,133 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import logo from "../../Assets/logo.png";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import logo from "../../Assets/logo.png"; // Importing logo
+import backgroundImage from "../../Assets/loginbg.jpg"; // Importing your background image
 import axios from 'axios';
-import {toast} from 'react-hot-toast'
+import { toast } from 'react-hot-toast';
 
 const Signup = () => {
-
-  const[name,setname]=useState("");
-  const[email,setEmail]=useState("");
-  const[password,setPassword]=useState("");
-  const navigate=useNavigate();
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const validateEmail = (email) => {
     const emailRegex = /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/;
     return emailRegex.test(email) && email.length >= 6;
   };
 
-  // Helper function to validate the password format
   const validatePassword = (password) => {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
     return passwordRegex.test(password);
   };
 
-
-  const handleSubmit=async (e)=>{
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (name.length < 5) {
-      toast.error("Name must be at least 5 characters long");
+      toast.error('Name must be at least 5 characters long');
       return;
     }
 
     if (!validateEmail(email)) {
-      toast.error("Invalid email! Must be at least 6 characters, lowercase, and contain @");
+      toast.error('Invalid email! Must be at least 6 characters, lowercase, and contain @');
       return;
     }
 
     if (!validatePassword(password)) {
-      toast.error("Password must be at least 6 characters, include 1 uppercase, 1 lowercase, 1 special character, and 1 number");
+      toast.error('Password must be at least 6 characters, include 1 uppercase, 1 lowercase, 1 special character, and 1 number');
       return;
     }
 
-   try{
-    const response=await axios.post('http://localhost:8000/api/signup',{name,email,password});
-    toast.success('User Created Successfully');
-    navigate('/');
-    console.log("User Data", response.data);
-
-   } catch(error) {
-    console.log("error in Signup", error);
-    toast.error("Failed Creating User")
-   }
-  }
+    try {
+      const response = await axios.post('http://localhost:8000/api/signup', { name, email, password });
+      toast.success('User Created Successfully');
+      navigate('/');
+      console.log('User Data', response.data);
+    } catch (error) {
+      console.log('Error in Signup', error);
+      toast.error('Failed Creating User');
+    }
+  };
 
   return (
-    <>
-   
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 ">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img
-          alt="Your Company"
-          src={logo}
-          className="mx-auto h-28 w-auto"
-        />
-        <h2 className=" text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          Create an user account 
-        </h2>
-      </div>
+    <div
+      className="min-h-screen flex items-center justify-center bg-cover bg-center"
+      style={{ backgroundImage: `url(${backgroundImage})` }}
+    >
+      <div className="bg-white bg-opacity-70 p-8 rounded-lg shadow-lg w-full max-w-md">
+        <div className="text-center">
+          <img src={logo} alt="Your Company" className="mx-auto h-28 w-auto" />
+          <h2 className="text-2xl font-bold leading-9 tracking-tight text-gray-900 mt-4">
+            Create a new account
+          </h2>
+        </div>
 
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form action="#" method="POST" className="space-y-6" onSubmit={handleSubmit}>
+        <form className="mt-6 space-y-6" onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900 text-left">
+            <label htmlFor="name" className="block text-sm font-medium text-gray-900">
               Name
             </label>
-            <div className="mt-2">
-              <input
-                id="name"
-                name="name"
-                type="name"
-                value={name}
-                onChange={(e)=>setname(e.target.value)}
-                required
-                autoComplete="name"
-                className="block w-full rounded-md border-0 py-1.5 px-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              className="mt-2 block w-full rounded-md py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-gray-300 focus:ring-2 focus:ring-indigo-600"
+            />
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900 text-left">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-900">
               Email address
             </label>
-            <div className="mt-2">
-              <input
-                id="email"
-                name="email"
-                type="email"
-                value={email}
-                onChange={(e)=>setEmail(e.target.value)}
-                required
-                autoComplete="email"
-                className="block w-full rounded-md border-0 py-1.5 px-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="mt-2 block w-full rounded-md py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-gray-300 focus:ring-2 focus:ring-indigo-600"
+            />
           </div>
 
           <div>
-            <div >
-              <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900 text-left">
-                Password
-              </label>
-              
-            </div>
-            <div className="mt-2">
-              <input
-                id="password"
-                name="password"
-                type="password"
-                value={password}
-                onChange={(e)=>setPassword(e.target.value)}
-                required
-                autoComplete="current-password"
-                className="block w-full rounded-md border-0 py-1.5 px-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-900">
+              Password
+            </label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="mt-2 block w-full rounded-md py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-gray-300 focus:ring-2 focus:ring-indigo-600"
+            />
           </div>
 
-          <div className='flex justify-between'>
+          <div className="flex justify-between">
             <button
-              
-              className="flex w-20 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              onClick={()=>navigate('/')}
+              type="button"
+              className="w-20 rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+              onClick={() => navigate('/')}
             >
-               Back
+              Back
             </button>
             <button
               type="submit"
-              className="flex w-20 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="w-20 rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600"
             >
               Save
             </button>
           </div>
         </form>
-        <div>
-          
-          
-        </div>
       </div>
     </div>
-  </>
-  )
-}
+  );
+};
 
-export default Signup
+export default Signup;
